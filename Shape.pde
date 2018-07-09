@@ -18,8 +18,9 @@ static class Shape {
       return false;
   }
 
-}
+
 //---------------------------------------------------------------------------------
 static int getBit(int n, int k) {
   return (n >> k) & 1;
+}
 }
