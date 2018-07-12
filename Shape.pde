@@ -20,7 +20,8 @@ static class Shape {
 
 
 //---------------------------------------------------------------------------------
-static int getBit(int n, int k) {
-  return (n >> k) & 1;
+//return the value of bit 'n' in the integer 'i'
+static int getBit(int n, int i) {
+  return (n >> i) & 1;
 }
 }

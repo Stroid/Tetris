@@ -1,35 +1,37 @@
 class GameBoard {
-  int[] r;
+  int[] rows;
   int cols;
   int gbX, gbY, gbW, gbH;
   GameBoard(int x, int y, int rows, int cols) {
-    this.gbX = x;
-    this.gbY = y;
-    this.gbW = cols * scl;
-    this.gbH = rows * scl;
-    this.r = new int[rows];
+    this.gbX = x; //GameBoard X
+    this.gbY = y; //GameBoard Y
+    this.gbW = cols * scl; //GameBoard Width
+    this.gbH = rows * scl; //GameBoard Width
+    this.rows = new int[rows];
     for (int row = 0; row < rows; row++) {
-      this.r[row] = 0;
+      this.rows[row] = 0;
     }
     this.cols = cols;
   }
   //----------------------------------------------------------------------------------
+  //Display the gameboard
   void display() {
     pushMatrix();
     translate(gbX, gbY);
     drawGameBoard();
-    drawShape();
+    drawCurrentShape();
     popMatrix();
     drawNextShape(15, 1, 4, 20);
   }
 
   //----------------------------------------------------------------------------------
+  //draw gameboard
   void drawGameBoard() {
     fill(color1);
     rect(-(scl * 0.3), -(scl * 0.3), gbW + scl * 0.3 * 2, gbH + scl * 0.3 * 2);
-    for (int row = 0; row < rows; row++) {
+    for (int row = 0; row < this.rows.length; row++) {
       for (int col = 0; col < cols; col++) {
-        if (Shape.getBit(this.r[row], col) == 1) {
+        if (Shape.getBit(this.rows[row], col) == 1) {
           fill(#00FF00);
         } else {
           fill(color1);
@@ -40,7 +42,8 @@ class GameBoard {
   }
 
   //------------------------------------------------------------------------
-  void drawShape() {
+  //Draw the current shape.
+  void drawCurrentShape() {
     int shape = player.current[player.dir];
     for (int i = 0; i < 16; i++) {
       if (Shape.getBit(shape, i) == 1) {
@@ -50,6 +53,7 @@ class GameBoard {
     }
   }
   //------------------------------------------------------------------------
+  //draw the next shape list.
   void drawNextShape(int x, int y, int w, int h) {
     x = x * scl;
     y = y * scl;
@@ -74,12 +78,13 @@ class GameBoard {
   }
 
   //------------------------------------------------------------------------
-  void addshape(int x, int y, int shape) {
-    for (int i = 0; i < 4; i++) {
-      int b = shape >> 4 * i & 0xF; 
-      if (b > 0) {
-        this.r[i + y] = this.r[i + y] << x | b;
-      }
+  //take the current shape and add it to the gameboard
+  void addShape(int x, int y, int shape) {
+    println(binary(shape));
+    for (int i = 0; i < 16; i += 4) {
+      int SR = (shape >> i) & 0xF;//Shape row
+      int SR2X = SR << cols - (x + 2);//Move the shape row to the x possition of the current shape
+      println(x, binary(SR2X));
     }
   }
 }

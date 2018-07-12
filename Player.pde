@@ -5,15 +5,19 @@ class Player {
   ArrayList<int[]> nextShape = new ArrayList<int[]>();
   ArrayList<int[]> nextShapeBuffer = new ArrayList<int[]>();
 
+  //keeps track of how many times in a row a move has been unvalid.
+  int notValidCount = 0;
+
   Player(int x, int y) {
     this.x = x;
     this.y = y;
-
+    
+    //create a next shape list and fill it width shapes.
     nextShape.addAll(0, randomShapes());
     nextShapeBuffer.addAll(0, randomShapes());
     nextShapeBuffer.addAll(0, randomShapes());
 
-    getNextShape(); //set new current
+    current = Shape.I;//getNextShape(); //set new current shape
   }
   //-----------------------------------------------------------------
   void move(int x, int y) {
@@ -21,22 +25,30 @@ class Player {
     this.y += y;
 
     boolean valid = valid();
-    if(!valid){
-      //Place the block
-    }
-    else{
-      //continue
+    
+    //If the move whas not aloud add one too the not valid counter.
+    if (!valid) {
+      notValidCount++;
+      //println("NotValidCount: " + notValidCount);
+      
+    //Else reset the not valid counter.
+    } else {
+      notValidCount = 0;
     }
   }
   //-----------------------------------------------------------------
   boolean valid() {
     boolean valid = true;
     for (int i = 0; i < 16; i++) {
-
+      
+      //If i is a block
       if ((current[dir] & 1 << i) > 0) {
+        //Calculate the possition
         int x = this.x + i % 4;
         int y = this.y + i / 4;
 
+        //while the current shape is outside the bounderies move the shape.
+        //And det valid to false
         while (y > rows - 1) {
           y--;
           this.y--;
@@ -69,10 +81,10 @@ class Player {
       nextShapeBuffer.addAll(randomShapes());
     }
     current = ns;
-    
+
     this.x = 2;
     this.y = 0;
-    
+
     return ns; //Return next shape;
   }
 
@@ -94,6 +106,7 @@ class Player {
   }
 
   //-------------------------------------------------------------------------------------------------------
+  //Rotate the shape
   void rotate() {
     dir++;
     if (dir > 3) dir = 0;
