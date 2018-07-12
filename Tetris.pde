@@ -37,11 +37,13 @@ void setup() {
 //------------------------------------------------------------------------------
 void draw() {
   background(color2);
-  if (frameCount % (60 * 10) == 0) {
+  if (frameCount % (60 * 1) == 0) {
     player.move(0, 1);
   }
   if(player.notValidCount > 2){
-    //gameBoard.addShape(player.x, player.y, player.current[player.dir]);
+    gameBoard.addShape(player.x, player.y, player.current[player.dir]);
+    player.getNextShape();
+    player.notValidCount = 0;
   }
   gameBoard.display();
   
@@ -63,6 +65,6 @@ void keyPressed() {
     player.getNextShape();
   };
   if (key == ' '){
-    gameBoard.addShape(player.x, player.y, player.current[player.dir]);
+    //gameBoard.addShape(player.x, player.y, player.current[player.dir]);
   }
 }

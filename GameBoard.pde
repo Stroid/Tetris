@@ -49,6 +49,9 @@ class GameBoard {
       if (Shape.getBit(shape, i) == 1) {
         fill(player.current[4]);
         rect((player.x + i % 4) * scl, (player.y  + i / 4) * scl, scl, scl);
+      } else if (debug) {
+        fill(255, 0, 0);
+        //rect((player.x + i % 4) * scl, (player.y  + i / 4) * scl, scl, scl);
       }
     }
   }
@@ -80,11 +83,26 @@ class GameBoard {
   //------------------------------------------------------------------------
   //take the current shape and add it to the gameboard
   void addShape(int x, int y, int shape) {
-    println(binary(shape));
     for (int i = 0; i < 16; i += 4) {
-      int SR = (shape >> i) & 0xF;//Shape row
-      int SR2X = SR << cols - (x + 2);//Move the shape row to the x possition of the current shape
-      println(x, binary(SR2X));
+      int SR = shape >> i & 0xF; // Shape row
+      int SR2X; //Moved the shape row to the x possition of the current shape
+      if (x < 0) {
+        SR2X = SR >> abs(x);
+      } else {
+        SR2X = SR << x;
+      }
+
+      if (SR > 0) {
+        this.rows[i/4 + y] = this.rows[i/4 + y] | SR2X;
+      }
     }
   }
 }
+
+
+//println(binary(shape));
+//for (int i = 0; i < 16; i += 4) {
+//  int SR = (shape >> i) & 0xF;//Shape row
+//  int SR2X = SR << cols - (x + 2);//Move the shape row to the x possition of the current shape
+//  println(x, binary(SR2X));
+//}
