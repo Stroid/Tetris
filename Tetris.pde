@@ -1,14 +1,21 @@
+boolean debug = true; // Set true if you want to debug...
 
+
+//Rows and columns of the gameboard
 int rows = 20;
 int cols = 10;
 
+//Scalar of the grid(in pixels)
 int scl = 40;
 
+//Define some stuff
 GameBoard gameBoard;
 Player player;
 
+//Specefy the primary colors of the game
 color color1 = color(140);
 color color2 = color(80);
+
 
 
 //------------------------------------------------------------------------------
@@ -30,11 +37,14 @@ void setup() {
 //------------------------------------------------------------------------------
 void draw() {
   background(color2);
-  if (frameCount % 120 == 0) {
+  if (frameCount % (60 * 10) == 0) {
     player.move(0, 1);
   }
-
+  if(player.notValidCount > 2){
+    //gameBoard.addShape(player.x, player.y, player.current[player.dir]);
+  }
   gameBoard.display();
+  
 }
 
 
@@ -49,7 +59,10 @@ void keyPressed() {
     if (keyCode == LEFT)  player.move(-1, 0);
     if (keyCode == RIGHT) player.move(1, 0);
   }
-  if (key == ' ') {
+  if ((key == 'f' || key == 'F') && debug) {
     player.getNextShape();
   };
+  if (key == ' '){
+    gameBoard.addShape(player.x, player.y, player.current[player.dir]);
+  }
 }
