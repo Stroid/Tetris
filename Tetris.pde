@@ -63,6 +63,6 @@ void keyPressed() {
     player.getNextShape();
   };
   if (key == ' '){
-    gameBoard.addShape(player.x, player.y, player.current[player.dir]);
+    gameBoard.addCurrentShape(player.x, player.y, player.current[player.dir]);
   }
 }

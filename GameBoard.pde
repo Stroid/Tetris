@@ -79,12 +79,12 @@ class GameBoard {
 
   //------------------------------------------------------------------------
   //take the current shape and add it to the gameboard
-  void addShape(int x, int y, int shape) {
-    println(binary(shape));
-    for (int i = 0; i < 16; i += 4) {
-      int SR = (shape >> i) & 0xF;//Shape row
-      int SR2X = SR << cols - (x + 2);//Move the shape row to the x possition of the current shape
-      println(x, binary(SR2X));
+  void addCurrentShape(int x, int y, int shape) {
+    for (int i = 0; i < 4; i++) {
+      int b = shape >> 4 * i & 0xF; 
+      if (b > 0) {
+        this.rows[i + y] = this.rows[i + y] | b << x;
+      }
     }
   }
 }
