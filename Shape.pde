@@ -9,19 +9,4 @@ static class Shape {
   public static int[] Z = {0x0C60, 0x4C80, 0xC600, 0x2640, #FF0000}; //red
   public static int[][] shapes = {I, J, L, O, S, T, Z};
 
-//--------------------------------------------------------------------------------
-  boolean isBlock(int[] type, int dir, int block) {
-    int bit = type[dir];
-    if ((bit & (1 << block)) > 0)
-      return true;
-    else 
-      return false;
-  }
-
-
-//---------------------------------------------------------------------------------
-//return the value of bit 'n' in the integer 'i'
-static int getBit(int n, int i) {
-  return (n >> i) & 1;
-}
 }
